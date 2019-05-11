@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Game {
@@ -5,12 +6,15 @@ public class Game {
     private Grid grid;
     private Player[] players;
     private Scanner userInput;
+    private Rule rule;
     private boolean runGame = true;
+    private final int ROWS = 5;
+    private final int COLUMNS = 5;
 
     public Game() {
         players = new Player[2];
-        grid = new Grid();
-
+        grid = new Grid(this.ROWS, this.COLUMNS);
+        rule = new Rule(grid);
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player();
         }
@@ -22,45 +26,66 @@ public class Game {
 
         initPlayers();
         grid.initGrid();
-        grid.printResults();
+        grid.printGridResults();
 
 
         while (runGame) {
 
             System.out.println("Player " + players[0].getName() + " turn");
+            processChecks();
             userInputTurn("P1");
 
-            System.out.println("Player " + players[1].getName() + " turn");
-            userInputTurn("P2");
 
-            grid.printResults();
+            System.out.println("Player " + players[1].getName() + " turn");
+            processChecks();
+            userInputTurn("P2");
 
         }
 
     }
 
+    public void processChecks(){
+        System.out.println("Please enter a number between 1 to 5");
+        grid.printGridResults();
+        rule.checkDraw();
+    }
+
 
     private void userInputTurn(String player) {
 
-        if (!userInput.hasNextInt()) {
-            //if the user has entered the non-integer, then warn the user
-            System.out.println("Please enter a positive integer");
-            userInput.next();
-        }
-        //if the user has not entered wrong input, then curry on
-        else {
+        boolean process = true;
 
-            int number = userInput.nextInt(); //take user input as integer
+        while (process) {
 
-            if (number > 0 && number < 7) {
-                grid.updateGrid(number, player);
-            } else {
-                System.out.println("Please enter a number between 1 to 6");
+            if (!userInput.hasNextInt()) {
+                //if the user has entered the non-integer, then warn the user
+                System.out.println("Wrong, " + player + " please enter a positive integer between 1 to 5");
+                userInput.next();
+            }
+            //if the user has not entered wrong input, then curry on updating the grid
+            else {
+
+                int number = userInput.nextInt(); //take user input as integer
+
+                if (number > 0 && number < COLUMNS + 1) {
+
+
+                    if (rule.illegalColumnInput(number)) {
+                        System.out.println("Wrong, " + player + " the column " + number
+                                + " already full, try a different column number");
+                    } else {
+                        grid.updateGrid(number, player);
+                        process = false; // close
+
+                    }
+                } else {
+                    System.out.println("Wrong, " + player + " please enter a number between 1 to 5");
+                }
+
+
             }
 
-
         }
-
 
     }
 

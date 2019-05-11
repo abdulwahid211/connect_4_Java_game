@@ -1,9 +1,22 @@
 public class Grid {
 
-    protected String connect4[][];
+    private String connect4[][];
 
-    Grid() {
-        this.connect4 = new String[6][7];
+    private int rows = 0;
+    private int column = 0;
+
+    Grid(int _rows, int _column) {
+        this.rows = _rows;
+        this.column = _column;
+        this.connect4 = new String[rows][column];
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public String[][] getConnect4() {
@@ -11,8 +24,6 @@ public class Grid {
     }
 
     public void initGrid() {
-
-        int count = 10;
 
         for (int i = 0; i < this.connect4.length; i++) {
             for (int j = 0; j < this.connect4.length; j++) {
@@ -26,18 +37,17 @@ public class Grid {
     public void updateGrid(int column, String player) {
 
 
-            for (int j  = this.connect4.length-1; j >=0 ; j--) {
+        for (int j = this.connect4.length - 1; j >= 0; j--) {
 
-                if (this.connect4[column-1][j].equals("O")) {
-                    this.connect4[column-1][j] = player;
-                    break;
-                }
+            if (this.connect4[j][column - 1].equals("O")) {
+                this.connect4[j][column - 1] = player;
+                break;
             }
         }
+    }
 
 
-
-    public void printResults() {
+    public void printGridResults() {
 
 
         for (int i = 0; i < this.connect4.length; i++) {
