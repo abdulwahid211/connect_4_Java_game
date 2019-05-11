@@ -8,7 +8,7 @@ public class Game {
     private Scanner userInput;
     private Rule rule;
     private boolean runGame = true;
-    private final int ROWS = 5;
+    private final int ROWS = 4;
     private final int COLUMNS = 5;
 
     public Game() {
@@ -45,8 +45,9 @@ public class Game {
     }
 
     public void processChecks(){
-        System.out.println("Please enter a number between 1 to 5");
+        System.out.println("Please enter a column number between 1 to "+COLUMNS);
         grid.printGridResults();
+        rule.checkHorizontalAndVertical();
         rule.checkDraw();
     }
 
@@ -59,7 +60,7 @@ public class Game {
 
             if (!userInput.hasNextInt()) {
                 //if the user has entered the non-integer, then warn the user
-                System.out.println("Wrong, " + player + " please enter a positive integer between 1 to 5");
+                System.out.println("Wrong, " + player + " please enter a column number between 1 to "+COLUMNS);
                 userInput.next();
             }
             //if the user has not entered wrong input, then curry on updating the grid
@@ -67,7 +68,7 @@ public class Game {
 
                 int number = userInput.nextInt(); //take user input as integer
 
-                if (number > 0 && number < COLUMNS + 1) {
+                if (number > 0 && number < COLUMNS) {
 
 
                     if (rule.illegalColumnInput(number)) {
@@ -79,7 +80,7 @@ public class Game {
 
                     }
                 } else {
-                    System.out.println("Wrong, " + player + " please enter a number between 1 to 5");
+                    System.out.println("Wrong, " + player + " please enter a column number between 1 to "+COLUMNS);
                 }
 
 
@@ -95,7 +96,7 @@ public class Game {
 
         while (run) {
 
-            System.out.println("Welcome to connect 4");
+            System.out.println("Welcome to Connect 4");
             System.out.println("Player 1 please enter your name?");
             players[0].setType("P1");
             players[0].setName(userInput.next());

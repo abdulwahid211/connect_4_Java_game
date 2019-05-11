@@ -26,7 +26,7 @@ public class Grid {
     public void initGrid() {
 
         for (int i = 0; i < this.connect4.length; i++) {
-            for (int j = 0; j < this.connect4.length; j++) {
+            for (int j = 0; j < this.connect4[i].length; j++) {
 
                 this.connect4[i][j] = "O";
 
@@ -51,7 +51,7 @@ public class Grid {
 
 
         for (int i = 0; i < this.connect4.length; i++) {
-            for (int j = 0; j < this.connect4.length; j++) {
+            for (int j = 0; j < this.connect4[i].length; j++) {
                 System.out.print(this.connect4[i][j] + " ");
             }
 
