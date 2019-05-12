@@ -1,2 +1,2 @@
-# connect_4_game_terminal
- Connect 4 game (Command Line)
+# Connect 4 game Terminal
+ This java game is only playable via Command Line.
