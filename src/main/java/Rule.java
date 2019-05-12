@@ -1,14 +1,14 @@
 public class Rule {
 
-    private Grid grid;
+    private Board board;
 
-    private String connect4[][];
+    private String matrix[][];
 
-    public Rule(Grid _grid) {
+    public Rule(Board _board) {
 
-        this.grid = _grid;
+        this.board = _board;
 
-        this.connect4 = this.grid.getConnect4();
+        this.matrix = this.board.getConnect4();
     }
 
 
@@ -16,14 +16,14 @@ public class Rule {
 
         int count = 0;
 
-        for (int j = this.connect4.length - 1; j >= 0; j--) {
+        for (int j = this.matrix.length - 1; j >= 0; j--) {
 
-            if (!this.connect4[j][column - 1].equals("O")) {
+            if (!this.matrix[j][column - 1].equals("O")) {
                 count = count + 1;
             }
         }
 
-        if (count == this.connect4.length) {
+        if (count == this.matrix.length) {
             return true;
         }
 
@@ -32,22 +32,11 @@ public class Rule {
 
     }
 
-    public void checkDraw() {
+    public void checkDraw(int totalMoves) {
 
-        int count = 0;
+        int total = this.board.getColumn() * this.board.getRows();
 
-        int total = this.grid.getColumn() * this.grid.getRows();
-
-        for (int i = 0; i < this.connect4.length; i++) {
-            for (int j = 0; j < this.connect4.length; j++) {
-                if (!this.connect4[i][j].equals("O")) {
-                    count = count + 1;
-
-                }
-            }
-        }
-
-        if (count == total) {
+        if (totalMoves == total) {
             System.out.println("Draw!");
             System.out.println("GAME OVER!");
             System.exit(0);
@@ -55,45 +44,89 @@ public class Rule {
 
     }
 
-    public void checkHorizontalAndVertical() {
+    public void isConnected(int y, String player) {
+
+        for (int x = 0; x < this.matrix.length; x++) {
+
+            int count = 0;
+            int i = y;
+
+            //HORIZONTAL.
+            while (i < board.getRows() && matrix[x][i].equals(player)) {
+                count++;
+                i++;
+            }
+            i = y - 1;
+
+            while (i >= 0 && matrix[x][i].equals(player)) {
+                count++;
+                i--;
+            }
+
+            verifyResult(count,player);
+
+            //VERTICAL.
+            count = 0;
+            int j = x;
+            while (j < board.getColumn() && this.matrix[j][y - 1].equals(player)) {
+                count++;
+                j++;
+            }
+
+            verifyResult(count,player);
+
+            //SECONDARY DIAGONAL.
+            count = 0;
+            i = x;
+            j = y;
+            while (i < board.getRows() && j < board.getColumn() && this.matrix[i][j].equals(player)) {
+                count++;
+                i++;
+                j++;
+            }
+            i = x - 1;
+            j = y - 1;
+            while (i >= 0 && j >= 0 && this.matrix[i][j].equals(player)) {
+                count++;
+                i--;
+                j--;
+            }
+
+            verifyResult(count,player);
+
+            //LEADING DIAGONAL.
+            count = 0;
+            i = x;
+            j = y - 1;
+            while (i < board.getRows() && j >= 0 && this.matrix[i][j].equals(player)) {
+                count++;
+                i++;
+                j--;
+            }
+            i = x - 1;
+            j = (y - 1) + 1;
+            while (i >= 0 && j < board.getColumn() && this.matrix[i][j].equals(player)) {
+                count++;
+                i--;
+                j++;
+            }
+
+            verifyResult(count,player);
+
+        } // end loop
+    }
+
+    public void verifyResult(int count, String player) {
 
         int total = 4;
 
-        for (int i = 0; i < this.connect4.length; i++) {
-            int count_p1_horizontal = 0;
-            int count_p2_horizontal = 0;
-            int count_p1_vertical = 0;
-            int count_p2_vertical = 0;
-
-            for (int j = 0; j < this.connect4.length; j++) {
-
-                if (this.connect4[i][j].equals("P1")) {
-                    count_p1_horizontal = count_p1_horizontal + 1;
-                }
-
-                if (this.connect4[i][j].equals("P2")) {
-                    count_p2_horizontal = count_p2_horizontal + 1;
-                }
-
-                if (this.connect4[j][i].equals("P1")) {
-                    count_p1_vertical = count_p1_vertical + 1;
-                }
-
-                if (this.connect4[j][i].equals("P2")) {
-                    count_p2_vertical = count_p2_vertical + 1;
-                }
-            }
-            if (count_p1_horizontal == total || count_p1_vertical == total) {
-                System.out.println("Player 1 Win!");
-                System.out.println("GAME OVER!");
-                System.exit(0);
-            }
-            if (count_p2_horizontal == total || count_p2_vertical == total) {
-                System.out.println("Player 2 Win!");
-                System.out.println("GAME OVER!");
-                System.exit(0);
-            }
-
+        if (count == total) {
+            System.out.println("Player: "+player+" Win!");
+            System.out.println("GAME OVER!");
+            board.printBoardResults();
+            System.exit(0);
         }
+
+
     }
 }

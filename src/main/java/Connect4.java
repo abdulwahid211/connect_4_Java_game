@@ -1,20 +1,21 @@
 
 import java.util.Scanner;
 
-public class Game {
+public class Connect4 {
 
-    private Grid grid;
+    private Board board;
     private Player[] players;
     private Scanner userInput;
     private Rule rule;
     private boolean runGame = true;
-    private final int ROWS = 4;
+    private final int ROWS = 5;
     private final int COLUMNS = 5;
+    private int totalMoves =0;
 
-    public Game() {
+    public Connect4() {
         players = new Player[2];
-        grid = new Grid(this.ROWS, this.COLUMNS);
-        rule = new Rule(grid);
+        board = new Board(this.ROWS, this.COLUMNS);
+        rule = new Rule(board);
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player();
         }
@@ -25,8 +26,8 @@ public class Game {
     public void run() {
 
         initPlayers();
-        grid.initGrid();
-        grid.printGridResults();
+        board.initBoard();
+        board.printBoardResults();
 
 
         while (runGame) {
@@ -34,11 +35,13 @@ public class Game {
             System.out.println("Player " + players[0].getName() + " turn");
             processChecks();
             userInputTurn("P1");
+            this.totalMoves = this.totalMoves + 1;
 
 
             System.out.println("Player " + players[1].getName() + " turn");
             processChecks();
             userInputTurn("P2");
+            this.totalMoves = this.totalMoves + 1;
 
         }
 
@@ -46,9 +49,8 @@ public class Game {
 
     public void processChecks(){
         System.out.println("Please enter a column number between 1 to "+COLUMNS);
-        grid.printGridResults();
-        rule.checkHorizontalAndVertical();
-        rule.checkDraw();
+        board.printBoardResults();
+        rule.checkDraw(this.totalMoves);
     }
 
 
@@ -63,19 +65,20 @@ public class Game {
                 System.out.println("Wrong, " + player + " please enter a column number between 1 to "+COLUMNS);
                 userInput.next();
             }
-            //if the user has not entered wrong input, then curry on updating the grid
+            //if the user has not entered wrong input, then curry on updating the board
             else {
 
                 int number = userInput.nextInt(); //take user input as integer
 
-                if (number > 0 && number < COLUMNS) {
+                if (number > 0 && number <= COLUMNS) {
 
 
                     if (rule.illegalColumnInput(number)) {
                         System.out.println("Wrong, " + player + " the column " + number
                                 + " already full, try a different column number");
                     } else {
-                        grid.updateGrid(number, player);
+                        board.updateBoard(number, player);
+                        rule.isConnected(number,player);
                         process = false; // close
 
                     }
