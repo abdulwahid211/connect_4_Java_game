@@ -4,7 +4,7 @@
 * This a classical Connect 4 game which is only playable vis the command line or terminal. 
 * Built using core Java
 * It requires two players to play the game 
-* The game can determine which player wins or if its draw 
+* The game can determine which player wins or if its a draw 
 * It can detect the following connections in the game: 
 
    * Diagonal axis
