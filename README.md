@@ -8,12 +8,16 @@
 * It can detect the following connections in the game: 
 
    * Diagonal axis
+   
    ![Screenshot](https://imgur.com/YmkiYU7.png)
+   
 
    * Horizontal axis   
+   
    ![Screenshot](https://imgur.com/98h9CSD.png)
    
    * Vertical axis   
+   
    ![Screenshot](https://imgur.com/NYxA2Qb.png)
 
 # Video Demo 
