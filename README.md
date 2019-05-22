@@ -1,7 +1,7 @@
 # Connect 4 Java Game 
 
 ## About
-* The Connect 4 game is only playable through the command line. 
+* This a classical Connect 4 game which is only playable vis the command line or terminal. 
 * Built using core Java
 * It requires two players to play the game 
 * The game can determine which player wins or if its draw 
